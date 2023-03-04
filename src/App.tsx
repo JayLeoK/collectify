@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import { initializeApp } from 'firebase/app';
- 
-import 'firebase/firestore';
-import 'firebase/auth';
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { initializeApp } from "firebase/app";
+
+import "firebase/firestore";
+import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB4yCbe_4m3nGQDB864NtYEdU7xYpDh9bg",
@@ -13,39 +12,33 @@ const firebaseConfig = {
   storageBucket: "dark-carport-268901.appspot.com",
   messagingSenderId: "575650731597",
   appId: "1:575650731597:web:e003614d02bd555934ee04",
-  measurementId: "G-LN4L2WECK2"
+  measurementId: "G-LN4L2WECK2",
 };
 
 initializeApp(firebaseConfig);
 
-
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div css={appCss.container}>
+      <div css={appCss.header}>Collectify</div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
+
+const appCss = {
+  container: css({
+    width: "100%",
+    height: "100%",
+    backgroundColor: "lightblue",
+    display: "grid",
+    placeContent: "center",
+  }),
+
+  header: css({
+    fontSize: "3rem",
+    fontWeight: 700,
+    color: "forestgreen",
+  }),
+};
