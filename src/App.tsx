@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+
 import { initializeApp } from "firebase/app";
 
 import "firebase/firestore";
 import "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB4yCbe_4m3nGQDB864NtYEdU7xYpDh9bg",
@@ -14,13 +17,42 @@ const firebaseConfig = {
   appId: "1:575650731597:web:e003614d02bd555934ee04",
   measurementId: "G-LN4L2WECK2",
 };
-
 initializeApp(firebaseConfig);
+const auth = getAuth();
 
+function SignInGoogle() {
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+  return <button onClick={() => signInWithGoogle()}>Sign In!</button>;
+}
+//do nothing for now. add email+password setup later
+function SignUp() {
+  return <button>Sign Up!</button>;
+}
+
+function SignOut() {
+  return <button onClick={() => auth.signOut()}>Sign Out</button>;
+}
 function App() {
+  const [user] = useAuthState(auth);
   return (
     <div css={appCss.container}>
       <div css={appCss.header}>Collectify</div>
+      <section>
+        {user ? (
+          <>
+            <div>You are logged in!</div>
+            <SignOut />
+          </>
+        ) : (
+          <>
+            <SignInGoogle />
+            <SignUp />
+          </>
+        )}
+      </section>
     </div>
   );
 }
