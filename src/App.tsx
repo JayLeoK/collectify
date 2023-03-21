@@ -25,16 +25,26 @@ function SignInGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);
   };
-  return <button onClick={() => signInWithGoogle()}>Sign In!</button>;
+  return (
+    <div>
+      <button onClick={() => signInWithGoogle()}>Sign In With Google</button>
+    </div>
+  );
 }
 //do nothing for now. add email+password setup later
-function SignUp() {
-  return <button>Sign Up!</button>;
+function EmailSignInOptions() {
+  return (
+    <div>
+      <button disabled={true}>Sign In</button>
+      <button disabled={true}>Sign Up!</button>
+    </div>
+  );
 }
 
 function SignOut() {
   return <button onClick={() => auth.signOut()}>Sign Out</button>;
 }
+
 function App() {
   const [user] = useAuthState(auth);
   return (
@@ -49,7 +59,7 @@ function App() {
         ) : (
           <>
             <SignInGoogle />
-            <SignUp />
+            <EmailSignInOptions />
           </>
         )}
       </section>
