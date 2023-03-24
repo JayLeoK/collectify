@@ -5,8 +5,14 @@ import { initializeApp } from "firebase/app";
 
 import "firebase/firestore";
 import "firebase/auth";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  User,
+} from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Dashboard from "./Dashboard";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB4yCbe_4m3nGQDB864NtYEdU7xYpDh9bg",
@@ -41,8 +47,13 @@ function EmailSignInOptions() {
   );
 }
 
-function SignOut() {
-  return <button onClick={() => auth.signOut()}>Sign Out</button>;
+function SignOut(user: User) {
+  return (
+    <>
+      <p>You are signed in as {user.email}</p>
+      <button onClick={() => auth.signOut()}>Sign Out</button>
+    </>
+  );
 }
 
 function App() {
@@ -52,10 +63,7 @@ function App() {
       <div css={appCss.header}>Collectify</div>
       <section>
         {user ? (
-          <>
-            <div>You are logged in!</div>
-            <SignOut />
-          </>
+          <Dashboard auth={auth} />
         ) : (
           <>
             <SignInGoogle />
