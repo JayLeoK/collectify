@@ -1,11 +1,4 @@
-import { Auth } from "firebase/auth";
-
-function Dashboard({ auth }: { auth: Auth }) {
-  return (
-    <>
-      <div>You are logged in!</div>
-      <button onClick={() => auth.signOut()}>Sign Out</button>;
-    </>
-  );
+function Dashboard() {
+  return <></>;
 }
 export default Dashboard;

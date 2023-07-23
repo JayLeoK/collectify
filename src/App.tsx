@@ -1,84 +1,44 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-
-import { initializeApp } from "firebase/app";
-
-import "firebase/firestore";
-import "firebase/auth";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  User,
-} from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Dashboard from "./Dashboard";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB4yCbe_4m3nGQDB864NtYEdU7xYpDh9bg",
-  authDomain: "dark-carport-268901.firebaseapp.com",
-  projectId: "dark-carport-268901",
-  storageBucket: "dark-carport-268901.appspot.com",
-  messagingSenderId: "575650731597",
-  appId: "1:575650731597:web:e003614d02bd555934ee04",
-  measurementId: "G-LN4L2WECK2",
-};
-initializeApp(firebaseConfig);
-const auth = getAuth();
-
-function SignInGoogle() {
-  const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-  };
-  return (
-    <div>
-      <button onClick={() => signInWithGoogle()}>Sign In With Google</button>
-    </div>
-  );
-}
-//do nothing for now. add email+password setup later
-function EmailSignInOptions() {
-  return (
-    <div>
-      <button disabled={true}>Sign In</button>
-      <button disabled={true}>Sign Up!</button>
-    </div>
-  );
-}
-
-function SignOut(user: User) {
-  return (
-    <>
-      <p>You are signed in as {user.email}</p>
-      <button onClick={() => auth.signOut()}>Sign Out</button>
-    </>
-  );
-}
+import React from "react";
+import { FirebaseContext } from "./FirebaseProvider";
+import LoginForm from "./LoginForm";
 
 function App() {
-  const [user] = useAuthState(auth);
+  const { authState, logOut } = React.useContext(FirebaseContext);
+  const [user, userLoading, userError] = authState;
   return (
-    <div css={appCss.container}>
-      <div css={appCss.header}>Collectify</div>
-      <section>
-        {user ? (
-          <Dashboard auth={auth} />
-        ) : (
-          <>
-            <SignInGoogle />
-            <EmailSignInOptions />
-          </>
-        )}
-      </section>
-    </div>
+    <>
+      {user ? (
+        <>
+          <div css={appCss.navBar}>
+            <h2>Collectify</h2>
+            <div css={appCss.logoutWrapper}>
+              <span>You are signed in as {user.email}</span>
+              <button onClick={logOut}>Sign Out</button>
+            </div>
+          </div>
+          <div css={appCss.homeContent}>
+            <Dashboard />
+          </div>
+        </>
+      ) : (
+        <div css={appCss.loginContainer}>
+          <div css={appCss.loginHeader}>Collectify</div>
+          <section>
+            <LoginForm />
+          </section>
+        </div>
+      )}
+    </>
   );
 }
 
 export default App;
 
 const appCss = {
-  container: css({
+  loginContainer: css({
     width: "100%",
     height: "100%",
     backgroundColor: "lightblue",
@@ -86,9 +46,33 @@ const appCss = {
     placeContent: "center",
   }),
 
-  header: css({
+  loginHeader: css({
     fontSize: "3rem",
     fontWeight: 700,
     color: "forestgreen",
+  }),
+
+  navBar: css({
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    backgroundColor: "lightblue",
+    color: "forestgreen",
+    padding: "16px",
+    fontSize: "20px",
+  }),
+
+  logoutWrapper: css({
+    display: "flex",
+    alignItems: "baseline",
+    gap: "12px",
+  }),
+
+  homeContent: css({
+    display: "grid",
+    placeContent: "center",
+    backgroundColor: "gray",
+    height: "100%",
+    width: "100%",
   }),
 };
