@@ -1,4 +1,5 @@
 import AddLocation from "./AddLocation";
+import LocationsView from "./LocationsView";
 
 function Dashboard() {
   return (
@@ -7,8 +8,9 @@ function Dashboard() {
         <h1>My collections</h1>
       </div>
       <div>
-        <h3>Map collection</h3>
+        <h3>Location collection</h3>
         <AddLocation />
+        <LocationsView />
       </div>
     </>
   );
