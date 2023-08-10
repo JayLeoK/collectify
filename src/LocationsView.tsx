@@ -8,7 +8,6 @@ const LocationsView: React.FC<{}> = () => {
     <>
       <h1>Locations</h1>
       {locationData && <LocationsTable locations={locationData} />}
-      {JSON.stringify(locationData)}
     </>
   );
 };
